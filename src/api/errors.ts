@@ -55,6 +55,8 @@ export function errorKey(error: unknown): string {
       return "notFound";
     case "VERSION_CONFLICT":
       return "versionConflict";
+    case "RESOURCE_IN_USE":
+      return "resourceInUse";
     case "VALIDATION_ERROR":
       return fieldCodes.includes("WEAK_PASSWORD") ? "weakPassword" : "validation";
     default:

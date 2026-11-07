@@ -10,6 +10,8 @@ export default getRequestConfig(async () => {
   const locale = defaultLocale;
   return {
     locale,
+    // Dates are shown in one zone on the server and in the browser (as in the PDF reports).
+    timeZone: "Europe/Moscow",
     messages: (await import(`../../messages/${locale}.json`)).default,
   };
 });
