@@ -13,6 +13,7 @@ import {
   type InspectionRoom,
 } from "@/inspections/api";
 import { cn } from "@/lib/utils";
+import { PhotoStrip } from "@/photos/photo-strip";
 
 /** Quick marks of a checklist item, in the order of the buttons (as in the Android app). */
 const MARKS: ChecklistResult[] = ["OK", "DEFECT", "NOT_APPLICABLE"];
@@ -130,6 +131,13 @@ export function RoomPanel({
               >
                 {t(`status.${observation.status}`)}
               </p>
+              <PhotoStrip
+                propertyId={observation.defect.propertyId}
+                observationId={observation.id}
+                photoIds={observation.photos.map((photo) => photo.photoId)}
+                editable={editable}
+                onChanged={onChanged}
+              />
             </li>
           ))}
         </ul>
