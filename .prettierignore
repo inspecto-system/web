@@ -1,0 +1,11 @@
+.next
+coverage
+playwright-report
+test-results
+node_modules
+package-lock.json
+# Copy of the tagged contract: kept byte for byte as in platform.
+api/*.yaml
+# Generated from the contract.
+src/api/generated
+AGENTS.md

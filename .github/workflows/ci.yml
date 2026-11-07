@@ -1,0 +1,39 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 3 * * 1" # weekly CodeQL scan
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    if: github.event_name != 'schedule'
+    uses: inspecto-system/platform/.github/workflows/node.yml@main
+    with:
+      e2e: true
+
+  security:
+    uses: inspecto-system/platform/.github/workflows/security.yml@main
+    permissions:
+      contents: read
+      security-events: write
+    with:
+      # CodeQL is the slowest check: on merges to main and weekly, not on every PR commit.
+      codeql-language: ${{ github.event_name != 'pull_request' && 'javascript-typescript' || '' }}
+      codeql-build-mode: none
+
+  container:
+    if: github.event_name != 'schedule'
+    uses: inspecto-system/platform/.github/workflows/container.yml@main
+    with:
+      image: inspecto/web

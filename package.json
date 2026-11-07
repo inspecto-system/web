@@ -1,0 +1,50 @@
+{
+  "name": "inspecto-web",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "generate:api": "openapi-typescript api/core.yaml -o src/api/generated/core.ts && openapi-typescript api/media.yaml -o src/api/generated/media.ts && openapi-typescript api/report.yaml -o src/api/generated/report.ts",
+    "dev": "npm run generate:api && next dev",
+    "build": "npm run generate:api && next build",
+    "start": "cp -r .next/static .next/standalone/.next/ && node .next/standalone/server.js",
+    "lint": "npm run generate:api && eslint --max-warnings=0 .",
+    "typecheck": "npm run generate:api && next typegen && tsc --noEmit",
+    "test": "npm run generate:api && vitest run",
+    "test:coverage": "npm run generate:api && vitest run --coverage",
+    "test:e2e": "playwright test",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "dependencies": {
+    "@tanstack/react-query": "5.107.1",
+    "next": "16.4.5",
+    "next-intl": "4.14.9",
+    "openapi-fetch": "0.17.0",
+    "react": "19.3.0",
+    "react-dom": "19.3.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.65.0",
+    "@tailwindcss/turbopack": "^4",
+    "@testing-library/dom": "10.4.2",
+    "@testing-library/jest-dom": "7.0.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/user-event": "14.6.8",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "6.2.1",
+    "@vitest/coverage-v8": "5.1.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.5",
+    "jsdom": "31.0.0",
+    "openapi-typescript": "7.13.0",
+    "prettier": "3.9.10",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "5.1.0"
+  }
+}
