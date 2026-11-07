@@ -3,7 +3,51 @@
     "name": "Inspecto",
     "tagline": "Property inspection and acceptance"
   },
-  "home": {
-    "comingSoon": "The web app is under construction: sign-in and properties come in the next versions."
+  "common": {
+    "loading": "Loading…"
+  },
+  "auth": {
+    "loginTitle": "Sign in",
+    "registerTitle": "Create account",
+    "tagline": "Property inspection and acceptance",
+    "fullName": "Full name",
+    "email": "Email",
+    "password": "Password",
+    "passwordHint": "At least {min} characters; not your email and not a common password.",
+    "passwordTooShort": "The password must be at least {min} characters long",
+    "loginAction": "Sign in",
+    "registerAction": "Create account",
+    "noAccount": "No account?",
+    "registerLink": "Create one",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Sign in",
+    "logout": "Sign out"
+  },
+  "properties": {
+    "title": "Properties",
+    "search": "Search by name or address",
+    "loading": "Loading properties…",
+    "empty": "No properties yet.",
+    "notFound": "Nothing found.",
+    "retry": "Retry",
+    "type": {
+      "APARTMENT": "Apartment",
+      "HOUSE": "House",
+      "COMMERCIAL": "Commercial",
+      "OTHER": "Other"
+    }
+  },
+  "errors": {
+    "network": "No connection to the server. Check the connection and try again.",
+    "invalidCredentials": "Wrong email or password",
+    "accountLocked": "Too many failed attempts. Try again in 15 minutes.",
+    "rateLimited": "Too many requests. Try again in a minute.",
+    "emailTaken": "This email is already registered",
+    "weakPassword": "The password is too simple or equals the email",
+    "validation": "Check the fields",
+    "notFound": "Not found or deleted",
+    "versionConflict": "The data was changed elsewhere. Reload the page.",
+    "server": "Server error. Try again later.",
+    "unexpected": "Something went wrong. Try again."
   }
 }

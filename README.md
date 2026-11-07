@@ -5,7 +5,7 @@
 ## Устройство
 
 - Работает за nginx на одном адресе с API (ADR-013): запросы идут на `/api/v1/...` того же источника, поэтому refresh-cookie `SameSite=Strict` работает, а CORS не нужен.
-- Access-токен — только в памяти, refresh-токен — cookie `HttpOnly` (ADR-008) — с T-502.
+- Access-токен — только в памяти (`src/auth/session.ts`), refresh-токен — cookie `HttpOnly; Secure; SameSite=Strict` (ADR-008); после перезагрузки сессия восстанавливается `POST /auth/refresh` с заголовком `X-CSRF-Protection`, при `401` токен обновляется один раз и запрос повторяется.
 - `src/proxy.ts` (бывший middleware) ставит на каждую страницу строгую CSP с новым nonce: скрипты и стили — только с nonce, без `'unsafe-inline'` (SECURITY.md §10). Поэтому `cacheComponents` (частичный пререндеринг) выключен — у статической оболочки не было бы nonce, — и страницы рендерятся на запрос.
 - Интерфейс на русском, английский подготовлен (`messages/`, ADR-019); язык в адресе не указывается.
 - Шрифты системные: при сборке ничего не загружается со сторонних сервисов.
@@ -21,13 +21,13 @@ docker run --rm -v "$(pwd -W):/web" -v inspecto-web-nm:/web/node_modules -w /web
   sh -c "npm ci --ignore-scripts && npm run format:check && npm run lint && npm run typecheck && npm run test:coverage"
 ```
 
-| Скрипт                              | Что делает                                                                                                 |
-| ----------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `generate:api`                      | Типы API из `api/*.yaml` в `src/api/generated/` (не в git; запускается перед lint, typecheck, test, build) |
-| `format:check`, `lint`, `typecheck` | Prettier, ESLint (`react/no-danger`, неиспользуемый код), `tsc --noEmit`                                   |
-| `test`, `test:coverage`             | Vitest + React Testing Library; порог покрытия 60 %                                                        |
-| `build`, `start`                    | `next build` (standalone) и запуск собранного сервера                                                      |
-| `test:e2e`                          | Playwright в Chromium: сам запускает собранный сервер, или идёт на `E2E_BASE_URL`                          |
+| Скрипт                              | Что делает                                                                                                                                            |
+| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `generate:api`                      | Типы API из `api/*.yaml` в `src/api/generated/` (не в git; запускается перед lint, typecheck, test, build)                                            |
+| `format:check`, `lint`, `typecheck` | Prettier, ESLint (`react/no-danger`, неиспользуемый код), `tsc --noEmit`                                                                              |
+| `test`, `test:coverage`             | Vitest + React Testing Library; порог покрытия 60 %                                                                                                   |
+| `build`, `start`                    | `next build` (standalone) и запуск собранного сервера                                                                                                 |
+| `test:e2e`                          | Playwright в Chromium: сам запускает собранный сервер, или идёт на `E2E_BASE_URL`; `e2e/live.spec.ts` — только с `E2E_LIVE=1` против compose за nginx |
 
 Playwright — в образе `mcr.microsoft.com/playwright:v1.65.0-noble`:
 

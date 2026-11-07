@@ -3,6 +3,7 @@ import { headers } from "next/headers";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import { QueryProvider } from "@/app/query-provider";
+import { SessionProvider } from "@/auth/session-provider";
 import "./globals.css";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -18,7 +19,9 @@ export default async function RootLayout({ children }: LayoutProps<"/">) {
     <html lang={locale} className="h-full antialiased">
       <body className="flex min-h-full flex-col">
         <NextIntlClientProvider>
-          <QueryProvider>{children}</QueryProvider>
+          <QueryProvider>
+            <SessionProvider>{children}</SessionProvider>
+          </QueryProvider>
         </NextIntlClientProvider>
       </body>
     </html>
