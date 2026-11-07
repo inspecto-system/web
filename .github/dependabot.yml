@@ -10,10 +10,22 @@ updates:
         patterns: ["next", "eslint-config-next", "react", "react-dom", "@types/react", "@types/react-dom"]
       test:
         patterns: ["vitest", "@vitest/*", "@playwright/test", "@testing-library/*", "jsdom"]
+    ignore:
+      # Types must match the Node.js the app runs on (.nvmrc, Dockerfile: 24 LTS); moved with Node itself.
+      - dependency-name: "@types/node"
+        update-types: ["version-update:semver-major"]
+      # TypeScript 7 (the native compiler) is outside the peer range of openapi-typescript 7: npm ci fails.
+      # Taken up by hand when the tools support it.
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: docker
     directory: /
     schedule:
       interval: weekly
+    ignore:
+      # Only LTS releases of Node.js (even majors) are used; a major update is a deliberate change.
+      - dependency-name: "node"
+        update-types: ["version-update:semver-major"]
   - package-ecosystem: github-actions
     directory: /
     schedule:
