@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("home page is in Russian under a strict nonce-based CSP", async ({ page }) => {
+test("sign-in page is in Russian under a strict nonce-based CSP", async ({ page }) => {
   const violations: string[] = [];
   page.on("console", (message) => {
     if (message.type() === "error" && message.text().includes("Content Security Policy")) {
@@ -8,9 +8,9 @@ test("home page is in Russian under a strict nonce-based CSP", async ({ page }) 
     }
   });
 
-  const response = await page.goto("/");
+  const response = await page.goto("/login");
   expect(response?.status()).toBe(200);
-  await expect(page.getByRole("heading", { name: "Inspecto" })).toBeVisible();
+  await expect(page.getByText("Вход", { exact: true })).toBeVisible();
   await expect(page.getByText("Осмотр и приёмка недвижимости")).toBeVisible();
   await expect(page.locator("html")).toHaveAttribute("lang", "ru");
 
