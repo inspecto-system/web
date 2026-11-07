@@ -1,0 +1,9 @@
+{
+  "app": {
+    "name": "Inspecto",
+    "tagline": "Property inspection and acceptance"
+  },
+  "home": {
+    "comingSoon": "The web app is under construction: sign-in and properties come in the next versions."
+  }
+}
