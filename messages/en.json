@@ -97,5 +97,102 @@
     "editNamed": "Edit room “{name}”",
     "deleteNamed": "Delete room “{name}”",
     "confirmDeleteNamed": "Confirm deleting room “{name}”"
+  },
+  "inspections": {
+    "title": "Inspections",
+    "new": "New inspection",
+    "loading": "Loading inspections…",
+    "empty": "No inspections yet.",
+    "defaultTitle": "Inspection {date}",
+    "defectCount": "defects: {count}",
+    "status": {
+      "DRAFT": "Draft",
+      "IN_PROGRESS": "In progress",
+      "COMPLETED": "Completed"
+    },
+    "newTitle": "New inspection: {property}",
+    "date": "Inspection date",
+    "titleField": "Title (optional)",
+    "rooms": "Rooms to inspect",
+    "templates": "Checklists",
+    "itemCount": "items: {count}",
+    "roomsRequired": "Choose at least one room",
+    "templatesRequired": "Choose at least one checklist",
+    "noRooms": "The property has no rooms. Add them in the property card first.",
+    "create": "Create inspection",
+    "cancel": "Cancel"
+  },
+  "inspection": {
+    "loading": "Loading the inspection…",
+    "back": "← To the property",
+    "status": {
+      "DRAFT": "Draft",
+      "IN_PROGRESS": "In progress",
+      "COMPLETED": "Completed — cannot be changed"
+    },
+    "start": "Start inspection",
+    "complete": "Complete inspection",
+    "delete": "Delete draft",
+    "draftHint": "Start the inspection to mark items and add defects.",
+    "completeConfirm": "Complete the inspection? It cannot be changed afterwards.",
+    "uncheckedLeft": "Items not marked: {count}",
+    "unmarkedLeft": "Earlier defects not marked as remaining or resolved: {count}",
+    "completeAction": "Complete",
+    "deleteConfirm": "Delete the draft inspection?",
+    "deleteAction": "Delete",
+    "cancel": "Cancel",
+    "rooms": "Rooms of the inspection"
+  },
+  "checklist": {
+    "result": {
+      "OK": "OK",
+      "DEFECT": "Defect",
+      "NOT_APPLICABLE": "N/A"
+    }
+  },
+  "defects": {
+    "title": "Defects of the room",
+    "add": "Add defect",
+    "none": "No defects.",
+    "new": "New defect",
+    "titleField": "Short description",
+    "elementGroup": "Element",
+    "category": "Category",
+    "severity": "Severity",
+    "description": "Details (optional)",
+    "save": "Save defect",
+    "cancel": "Cancel",
+    "group": {
+      "WALLS": "Walls",
+      "CEILING": "Ceiling",
+      "FLOOR": "Floor",
+      "WINDOWS": "Windows",
+      "DOORS": "Doors",
+      "PLUMBING": "Plumbing",
+      "ELECTRICAL": "Electrical",
+      "OTHER": "Other"
+    },
+    "severityName": {
+      "COSMETIC": "Cosmetic",
+      "MINOR": "Minor",
+      "MAJOR": "Major",
+      "CRITICAL": "Critical"
+    },
+    "status": {
+      "OPEN": "Open",
+      "RESOLVED": "Resolved"
+    }
+  },
+  "openDefects": {
+    "title": "Defects of earlier inspections",
+    "hint": "Not marked: {count}. Mark each one as remaining or resolved.",
+    "remains": "Remains",
+    "resolved": "Resolved",
+    "remainsNamed": "Defect “{title}” remains",
+    "resolvedNamed": "Defect “{title}” is resolved",
+    "marked": {
+      "OPEN": "Marked: remains",
+      "RESOLVED": "Marked: resolved"
+    }
   }
 }

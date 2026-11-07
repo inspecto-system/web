@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { propertyApi, propertyDetailsQuery, propertyKeys, type PropertyDetails } from "@/properties/api";
 import { PropertyForm } from "@/properties/property-form";
 import { Rooms } from "@/properties/rooms";
+import { InspectionList } from "@/inspections/inspection-list";
 
 function Facts({ property }: { property: PropertyDetails }) {
   const t = useTranslations("properties");
@@ -148,6 +149,7 @@ export function PropertyCard({ id }: { id: string }) {
         <Facts property={property} />
       )}
       <Rooms propertyId={id} rooms={property.rooms} editable={!archived} />
+      <InspectionList propertyId={id} canCreate={!archived && property.rooms.length > 0} />
     </div>
   );
 }
