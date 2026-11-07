@@ -1,5 +1,5 @@
 # Production image of the web app: the standalone Next.js server (next.config.ts, output "standalone").
-FROM node:24-alpine AS build
+FROM node:25-alpine AS build
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
 COPY package.json package-lock.json ./
@@ -8,7 +8,7 @@ RUN npm ci --ignore-scripts
 COPY . .
 RUN npm run build
 
-FROM node:24-alpine
+FROM node:25-alpine
 WORKDIR /app
 ENV NODE_ENV=production NEXT_TELEMETRY_DISABLED=1 PORT=3000 HOSTNAME=0.0.0.0
 # Package managers are not needed to run the server: fewer files, fewer vulnerabilities to patch.
