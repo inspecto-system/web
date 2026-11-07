@@ -42,5 +42,19 @@ test("register, see the empty dashboard, survive a reload, sign out, sign in aga
   await page.getByLabel("Пароль").fill(password);
   await page.getByRole("button", { name: "Войти" }).click();
   await expect(page.getByText("Объектов пока нет.")).toBeVisible();
+
+  // T-503: a property with a room, found from the dashboard.
+  await page.getByRole("link", { name: "Добавить объект" }).click();
+  await page.getByLabel("Название", { exact: true }).fill("Квартира на Мира");
+  await page.getByLabel("Адрес").fill("Казань, ул. Мира, 5");
+  await page.getByLabel("Площадь, м²").fill("54.5");
+  await page.getByRole("button", { name: "Создать объект" }).click();
+  await expect(page.getByRole("heading", { name: "Квартира на Мира" })).toBeVisible();
+  await page.getByRole("textbox", { name: "Название помещения" }).fill("Кухня");
+  await page.getByRole("combobox", { name: "Тип помещения" }).selectOption("KITCHEN");
+  await page.getByRole("button", { name: "Добавить помещение" }).click();
+  await expect(page.getByRole("button", { name: "Изменить помещение «Кухня»" })).toBeVisible();
+  await page.getByRole("link", { name: "← Все объекты" }).click();
+  await expect(page.getByRole("link", { name: "Квартира на Мира" })).toBeVisible();
   expect(violations).toEqual([]);
 });

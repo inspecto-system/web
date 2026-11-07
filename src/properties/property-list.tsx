@@ -1,6 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { core } from "@/api/client";
@@ -10,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { propertyKeys } from "@/properties/api";
 
 export type Property = components["schemas"]["Property"];
 
@@ -28,39 +30,53 @@ function useDebounced(value: string, delay: number): string {
   return debounced;
 }
 
-export function propertiesQuery(query: string) {
+export function propertiesQuery(query: string, archived = false) {
   return {
-    queryKey: ["properties", query] as const,
+    queryKey: [...propertyKeys.all, query, archived] as const,
     queryFn: () =>
       unwrap(
         core.GET("/properties", {
-          params: { query: { page: 0, size: PAGE_SIZE, archived: false, query: query || undefined } },
+          params: { query: { page: 0, size: PAGE_SIZE, archived, query: query || undefined } },
         }),
       ),
   };
 }
 
-/** Dashboard of T-502: own active properties with search by name or address. */
+/** Dashboard (T-502, T-503): own properties with search by name or address, archive on demand. */
 export function PropertyList() {
   const t = useTranslations("properties");
   const errors = useTranslations("errors");
   const [search, setSearch] = useState("");
+  const [archived, setArchived] = useState(false);
   const query = useDebounced(search.trim(), SEARCH_DELAY_MS);
-  const { data, error, isPending, refetch } = useQuery(propertiesQuery(query));
+  const { data, error, isPending, refetch } = useQuery(propertiesQuery(query, archived));
 
   return (
     <section className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <Input
-          className="max-w-xs"
-          type="search"
-          aria-label={t("search")}
-          placeholder={t("search")}
-          maxLength={100}
-          value={search}
-          onChange={(event) => setSearch(event.target.value)}
-        />
+        <div className="flex flex-wrap items-center gap-3">
+          <Input
+            className="max-w-xs"
+            type="search"
+            aria-label={t("search")}
+            placeholder={t("search")}
+            maxLength={100}
+            value={search}
+            onChange={(event) => setSearch(event.target.value)}
+          />
+          <label className="flex items-center gap-2 text-sm">
+            <input
+              type="checkbox"
+              checked={archived}
+              onChange={(event) => setArchived(event.target.checked)}
+            />
+            {t("showArchived")}
+          </label>
+          <Button asChild>
+            <Link href="/properties/new">{t("add")}</Link>
+          </Button>
+        </div>
       </div>
       {error && (
         <Alert variant="destructive">
@@ -77,9 +93,14 @@ export function PropertyList() {
       <ul className="grid gap-3 sm:grid-cols-2">
         {data?.items.map((property) => (
           <li key={property.id}>
-            <Card>
+            <Card className="hover:bg-muted/50 relative transition-colors">
               <CardHeader>
-                <CardTitle>{property.name}</CardTitle>
+                <CardTitle>
+                  {/* The whole card is clickable through the stretched link. */}
+                  <Link href={`/properties/${property.id}`} className="after:absolute after:inset-0">
+                    {property.name}
+                  </Link>
+                </CardTitle>
                 <CardDescription>
                   {t(`type.${property.type}`)} · {property.address}
                 </CardDescription>

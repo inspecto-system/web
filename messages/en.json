@@ -35,7 +35,30 @@
       "HOUSE": "House",
       "COMMERCIAL": "Commercial",
       "OTHER": "Other"
-    }
+    },
+    "name": "Name",
+    "typeLabel": "Type",
+    "address": "Address",
+    "city": "City",
+    "area": "Area, m²",
+    "notes": "Notes",
+    "cancel": "Cancel",
+    "save": "Save",
+    "create": "Create property",
+    "newTitle": "New property",
+    "add": "Add property",
+    "showArchived": "Archive",
+    "back": "← All properties",
+    "archived": "archived",
+    "edit": "Edit",
+    "archive": "Archive",
+    "unarchive": "Restore",
+    "delete": "Delete",
+    "deleteConfirm": "Delete the property with all inspections, defects, photos and reports? This cannot be undone.",
+    "deleteForever": "Delete forever",
+    "inspections": "Inspections",
+    "openDefects": "Open defects",
+    "lastInspection": "Last inspection"
   },
   "errors": {
     "network": "No connection to the server. Check the connection and try again.",
@@ -48,6 +71,31 @@
     "notFound": "Not found or deleted",
     "versionConflict": "The data was changed elsewhere. Reload the page.",
     "server": "Server error. Try again later.",
-    "unexpected": "Something went wrong. Try again."
+    "unexpected": "Something went wrong. Try again.",
+    "resourceInUse": "Cannot delete: used by inspections or defects"
+  },
+  "rooms": {
+    "title": "Rooms",
+    "empty": "No rooms yet.",
+    "name": "Room name",
+    "typeLabel": "Room type",
+    "add": "Add room",
+    "edit": "Edit",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "deleteConfirm": "Delete the room?",
+    "type": {
+      "LIVING": "Living room",
+      "KITCHEN": "Kitchen",
+      "BATHROOM": "Bathroom",
+      "TOILET": "Toilet",
+      "HALLWAY": "Hallway",
+      "BALCONY": "Balcony",
+      "OTHER": "Other"
+    },
+    "editNamed": "Edit room “{name}”",
+    "deleteNamed": "Delete room “{name}”",
+    "confirmDeleteNamed": "Confirm deleting room “{name}”"
   }
 }

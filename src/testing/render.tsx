@@ -53,7 +53,7 @@ export const tokens = { accessToken: "access-1", tokenType: "Bearer", expiresIn:
 export function renderApp(ui: ReactNode) {
   const queries = new QueryClient({ defaultOptions: { queries: { retry: false } } });
   return render(
-    <NextIntlClientProvider locale="ru" messages={messages}>
+    <NextIntlClientProvider locale="ru" messages={messages} timeZone="Europe/Moscow">
       <QueryClientProvider client={queries}>
         <SessionProvider>{ui}</SessionProvider>
       </QueryClientProvider>
