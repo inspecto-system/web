@@ -57,6 +57,16 @@ export function errorKey(error: unknown): string {
       return "versionConflict";
     case "RESOURCE_IN_USE":
       return "resourceInUse";
+    case "INVALID_STATE_TRANSITION":
+      return "invalidState";
+    case "UNSUPPORTED_MEDIA_TYPE":
+      return "unsupportedImage";
+    case "IMAGE_TOO_LARGE":
+      return "imageTooLarge";
+    case "IMAGE_DIMENSIONS_TOO_LARGE":
+      return "imageDimensions";
+    case "PHOTO_LIMIT_EXCEEDED":
+      return "photoLimit";
     case "VALIDATION_ERROR":
       return fieldCodes.includes("WEAK_PASSWORD") ? "weakPassword" : "validation";
     default:

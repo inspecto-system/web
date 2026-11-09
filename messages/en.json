@@ -72,7 +72,12 @@
     "versionConflict": "The data was changed elsewhere. Reload the page.",
     "server": "Server error. Try again later.",
     "unexpected": "Something went wrong. Try again.",
-    "resourceInUse": "Cannot delete: used by inspections or defects"
+    "resourceInUse": "Cannot delete: used by inspections or defects",
+    "invalidState": "The inspection is already completed or changed its status. Reload the page.",
+    "unsupportedImage": "A JPEG, PNG or WebP file is needed",
+    "imageTooLarge": "The file is too large",
+    "imageDimensions": "The photo resolution is too high",
+    "photoLimit": "The defect already has the maximum of photos"
   },
   "rooms": {
     "title": "Rooms",
@@ -194,5 +199,15 @@
       "OPEN": "Marked: remains",
       "RESOLVED": "Marked: resolved"
     }
+  },
+  "photos": {
+    "add": "Add photo",
+    "choose": "Choose a photo",
+    "uploading": "Uploading…",
+    "full": "Photos at maximum: {max}",
+    "open": "Open photo",
+    "preview": "Defect photo",
+    "remove": "Delete photo",
+    "tooLarge": "The file is larger than {mb} MB"
   }
 }

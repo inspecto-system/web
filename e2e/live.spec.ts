@@ -69,6 +69,13 @@ test("register, see the empty dashboard, survive a reload, sign out, sign in aga
   await page.getByLabel("Серьёзность").selectOption("MAJOR");
   await page.getByRole("button", { name: "Сохранить дефект" }).click();
   await expect(page.getByText("Трещина у окна")).toBeVisible();
+  // A photo of the defect: uploaded to media-service, attached in core-service, shown as a thumbnail.
+  await page.getByLabel("Выбрать фото").setInputFiles(`${__dirname}/fixtures/room.jpg`);
+  const thumbnail = page.getByRole("button", { name: "Открыть фото" }).locator("img");
+  await expect(thumbnail).toBeVisible();
+  expect(await thumbnail.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);
+  await page.getByRole("button", { name: "Открыть фото" }).click();
+  await expect(page.getByRole("img", { name: "Фото дефекта" })).toBeVisible();
   await page.getByRole("button", { name: "Завершить осмотр" }).click();
   await expect(page.getByText(/Не отмечено пунктов/)).toBeVisible();
   await page.getByRole("button", { name: "Завершить", exact: true }).click();
