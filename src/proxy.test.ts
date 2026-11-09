@@ -18,6 +18,9 @@ describe("proxy", () => {
     expect(first.headers.get("x-middleware-request-x-nonce")).toBe(nonce);
     expect(first.headers.get("Permissions-Policy")).toBe("camera=(), microphone=(), geolocation=()");
     expect(first.headers.get("X-Content-Type-Options")).toBe("nosniff");
+    expect(first.headers.get("Cross-Origin-Opener-Policy")).toBe("same-origin");
+    expect(first.headers.get("Cross-Origin-Embedder-Policy")).toBe("require-corp");
+    expect(first.headers.get("Cross-Origin-Resource-Policy")).toBe("same-origin");
   });
 
   it("skips static files and prefetches", () => {

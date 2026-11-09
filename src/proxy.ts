@@ -19,14 +19,19 @@ export function proxy(request: NextRequest) {
   response.headers.set("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   response.headers.set("Referrer-Policy", "no-referrer");
   response.headers.set("X-Content-Type-Options", "nosniff");
+  // Isolation from other origins (T-506, OWASP ZAP 90004): no window of another site keeps a reference to
+  // this one, and the page loads only resources of its own origin (all of them are, behind nginx).
+  response.headers.set("Cross-Origin-Opener-Policy", "same-origin");
+  response.headers.set("Cross-Origin-Embedder-Policy", "require-corp");
+  response.headers.set("Cross-Origin-Resource-Policy", "same-origin");
   return response;
 }
 
 export const config = {
   matcher: [
-    // Pages only: static files of Next.js and prefetches do not need a policy of their own.
+    // Pages and the favicon; hashed static files of Next.js get their headers from nginx, prefetches need none.
     {
-      source: "/((?!_next/static|_next/image|favicon.ico).*)",
+      source: "/((?!_next/static|_next/image).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },
