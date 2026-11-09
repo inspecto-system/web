@@ -189,6 +189,17 @@
       "RESOLVED": "Resolved"
     }
   },
+  "suggestions": {
+    "title": "Defect photo and category suggestion",
+    "add": "Add a photo of the defect",
+    "replace": "Another photo",
+    "choose": "Choose a photo of the defect",
+    "working": "Uploading and suggesting…",
+    "hint": "Looks like:",
+    "item": "{name} — {percent}%",
+    "none": "No suggestion — choose the category yourself. The photo will be attached to the defect.",
+    "tooLarge": "The file is larger than {mb} MB"
+  },
   "openDefects": {
     "title": "Defects of earlier inspections",
     "hint": "Not marked: {count}. Mark each one as remaining or resolved.",

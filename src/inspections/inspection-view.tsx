@@ -165,6 +165,7 @@ export function InspectionView({ id }: { id: string }) {
       {room && (
         <RoomPanel
           key={room.room.id}
+          propertyId={inspection.propertyId}
           inspectionId={id}
           room={room}
           editable={editable}

@@ -18,17 +18,20 @@ import {
   type NewDefect,
   type Severity,
 } from "@/inspections/api";
+import { PhotoSuggestions, type PhotoChoice } from "@/inspections/photo-suggestions";
 
 interface Props {
+  propertyId: string;
   roomId: string;
   /** The checklist item marked as a defect, if the defect starts from one. */
   item?: ChecklistItem;
-  onSubmit(defect: NewDefect): Promise<unknown>;
+  /** The photo, when one was taken in the form, is attached to the first observation. */
+  onSubmit(defect: NewDefect, photoId?: string): Promise<unknown>;
   onCancel(): void;
 }
 
 /** A new defect with its first observation (platform/api/core.yaml, CreateDefectRequest). */
-export function DefectForm({ roomId, item, onSubmit, onCancel }: Props) {
+export function DefectForm({ propertyId, roomId, item, onSubmit, onCancel }: Props) {
   const t = useTranslations("defects");
   const errors = useTranslations("errors");
   const categories = useQuery(inspectionQueries.categories());
@@ -39,6 +42,7 @@ export function DefectForm({ roomId, item, onSubmit, onCancel }: Props) {
   const [description, setDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [photo, setPhoto] = useState<PhotoChoice | null>(null);
 
   const active = (categories.data ?? []).filter((category) => category.active);
   // A category of the element group is offered first; the inspector may choose any other.
@@ -50,15 +54,19 @@ export function DefectForm({ roomId, item, onSubmit, onCancel }: Props) {
     setBusy(true);
     setError(null);
     try {
-      await onSubmit({
-        roomId,
-        checklistItemId: item?.id,
-        categoryId: category,
-        elementGroup: group,
-        title: title.trim(),
-        description: description.trim() || undefined,
-        severity,
-      });
+      await onSubmit(
+        {
+          roomId,
+          checklistItemId: item?.id,
+          categoryId: category,
+          elementGroup: group,
+          title: title.trim(),
+          description: description.trim() || undefined,
+          severity,
+          suggestionId: photo?.suggestionId,
+        },
+        photo?.photoId,
+      );
     } catch (failure) {
       setError(errors(errorKey(failure)));
       setBusy(false);
@@ -68,6 +76,12 @@ export function DefectForm({ roomId, item, onSubmit, onCancel }: Props) {
   return (
     <form className="flex flex-col gap-3 rounded-lg border p-4" onSubmit={submit} aria-label={t("new")}>
       <h3 className="font-semibold">{t("new")}</h3>
+      <PhotoSuggestions
+        propertyId={propertyId}
+        categoryId={category}
+        onPhoto={setPhoto}
+        onCategory={setCategoryId}
+      />
       <div className="flex flex-col gap-2">
         <Label htmlFor="defect-title">{t("titleField")}</Label>
         <Input
