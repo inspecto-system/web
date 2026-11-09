@@ -94,5 +94,25 @@ test("register, see the empty dashboard, survive a reload, sign out, sign in aga
   await page.goto(card);
   await expect(page.getByText("Открытых дефектов")).toBeVisible();
   await expect(page.getByRole("link", { name: "Приёмка" })).toBeVisible();
+
+  // T-504: statistics, comparison of the two inspections, a PDF report of the first one.
+  await expect(page.getByRole("heading", { name: "Статистика" })).toBeVisible();
+  await expect(page.getByText("Всего дефектов")).toBeVisible();
+  await page.getByRole("link", { name: "Сравнить осмотры →" }).click();
+  await expect(page.getByRole("button", { name: "Устранены: 1" })).toBeVisible();
+  await expect(page.getByText("Трещина у окна")).toBeVisible();
+  await page.goto(card);
+  await page.getByRole("link", { name: "Приёмка" }).click();
+  const downloading = page.waitForEvent("download");
+  await page.getByRole("button", { name: "Сформировать отчёт" }).click();
+  const pdf = await downloading;
+  expect(pdf.suggestedFilename()).toBe("inspection-2026-10-01.pdf");
+  const bytes = await pdf.createReadStream().then(async (stream) => {
+    const chunks: Buffer[] = [];
+    for await (const chunk of stream) chunks.push(chunk as Buffer);
+    return Buffer.concat(chunks);
+  });
+  expect(bytes.subarray(0, 5).toString()).toBe("%PDF-");
+  await expect(page.getByRole("button", { name: "Скачать" })).toBeVisible();
   expect(violations).toEqual([]);
 });

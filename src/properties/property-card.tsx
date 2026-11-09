@@ -12,6 +12,7 @@ import { propertyApi, propertyDetailsQuery, propertyKeys, type PropertyDetails }
 import { PropertyForm } from "@/properties/property-form";
 import { Rooms } from "@/properties/rooms";
 import { InspectionList } from "@/inspections/inspection-list";
+import { Statistics } from "@/analytics/statistics";
 
 function Facts({ property }: { property: PropertyDetails }) {
   const t = useTranslations("properties");
@@ -150,6 +151,12 @@ export function PropertyCard({ id }: { id: string }) {
       )}
       <Rooms propertyId={id} rooms={property.rooms} editable={!archived} />
       <InspectionList propertyId={id} canCreate={!archived && property.rooms.length > 0} />
+      {property.inspectionCount >= 2 && (
+        <Link href={`/properties/${id}/compare`} className="underline">
+          {t("compare")}
+        </Link>
+      )}
+      <Statistics propertyId={id} />
     </div>
   );
 }

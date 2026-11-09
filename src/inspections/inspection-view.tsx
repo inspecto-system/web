@@ -13,6 +13,7 @@ import { useInspectionName } from "@/inspections/inspection-list";
 import { OpenDefects } from "@/inspections/open-defects";
 import { RoomPanel } from "@/inspections/room-panel";
 import { propertyKeys } from "@/properties/api";
+import { ReportsPanel } from "@/reports/reports-panel";
 
 /** What still needs the inspector before completion (a warning, the server does not require it). */
 function unfinished(inspection: InspectionDetails, unmarkedDefects: number) {
@@ -136,6 +137,9 @@ export function InspectionView({ id }: { id: string }) {
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
         </Alert>
+      )}
+      {inspection.status === "COMPLETED" && (
+        <ReportsPanel inspectionId={id} fileName={`inspection-${inspection.inspectedAt.slice(0, 10)}.pdf`} />
       )}
       <OpenDefects
         inspectionId={id}
