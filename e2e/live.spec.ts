@@ -70,7 +70,9 @@ test("register, see the empty dashboard, survive a reload, sign out, sign in aga
   // A photo in the form (T-603): uploaded to media-service, ml-service is asked for categories.
   // With a model the suggestions appear, without one (CI) the form says so; either way the photo
   // is attached to the new defect.
-  await page.getByLabel("Выбрать фото дефекта", { exact: true }).setInputFiles(`${__dirname}/fixtures/room.jpg`);
+  await page
+    .getByLabel("Выбрать фото дефекта", { exact: true })
+    .setInputFiles(`${__dirname}/fixtures/room.jpg`);
   await expect(page.getByText(/Похоже на:|Подсказки нет/)).toBeVisible();
   await page.getByRole("button", { name: "Сохранить дефект" }).click();
   await expect(page.getByText("Трещина у окна")).toBeVisible();
