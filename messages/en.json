@@ -58,7 +58,8 @@
     "deleteForever": "Delete forever",
     "inspections": "Inspections",
     "openDefects": "Open defects",
-    "lastInspection": "Last inspection"
+    "lastInspection": "Last inspection",
+    "compare": "Compare inspections →"
   },
   "errors": {
     "network": "No connection to the server. Check the connection and try again.",
@@ -209,5 +210,54 @@
     "preview": "Defect photo",
     "remove": "Delete photo",
     "tooLarge": "The file is larger than {mb} MB"
+  },
+  "statistics": {
+    "title": "Statistics",
+    "loading": "Loading statistics…",
+    "empty": "No defects yet — statistics appear after inspections.",
+    "total": "Defects in total",
+    "open": "Open",
+    "resolved": "Resolved",
+    "bySeverity": "Open by severity",
+    "byCategory": "Open by category",
+    "byRoom": "Open by room",
+    "byInspection": "Open as of each inspection"
+  },
+  "comparison": {
+    "title": "Inspection comparison",
+    "back": "← To the property",
+    "loading": "Loading…",
+    "needTwo": "At least two inspections are needed for a comparison.",
+    "base": "Before (earlier inspection)",
+    "target": "After (later inspection)",
+    "order": "The first inspection must be earlier than the second. Choose other inspections.",
+    "filter": "Show only",
+    "count": "{state}: {count}",
+    "empty": "No defects to compare.",
+    "reopened": "reappeared",
+    "state": {
+      "NEW": "New",
+      "RESOLVED": "Resolved",
+      "REMAINING": "Remaining",
+      "NOT_CHECKED": "Not checked"
+    }
+  },
+  "reports": {
+    "title": "PDF reports",
+    "order": "Create report",
+    "generating": "Creating…",
+    "empty": "No reports yet.",
+    "download": "Download",
+    "pages": "pages: {count}",
+    "stillGenerating": "The report is still being created. Reload the page a bit later.",
+    "failed": "The report could not be created. Try again.",
+    "failedTooLarge": "The report is too large: the inspection has too many photos.",
+    "failedUnavailable": "The server was temporarily unavailable. Try again.",
+    "status": {
+      "QUEUED": "Queued",
+      "RUNNING": "Creating",
+      "DONE": "Ready",
+      "FAILED": "Failed"
+    }
   }
 }
