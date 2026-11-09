@@ -16,6 +16,7 @@ export type Severity = Schemas["Severity"];
 export type ElementGroup = Schemas["ElementGroup"];
 export type ObservationStatus = Schemas["ObservationStatus"];
 export type NewDefect = Schemas["CreateDefectRequest"];
+export type CategorySuggestions = Schemas["SuggestionResponse"];
 
 export const SEVERITIES: Severity[] = ["COSMETIC", "MINOR", "MAJOR", "CRITICAL"];
 export const ELEMENT_GROUPS: ElementGroup[] = [
@@ -113,6 +114,11 @@ export const inspectionApi = {
     ),
   createDefect: (inspectionId: string, body: NewDefect) =>
     unwrap(core.POST("/inspections/{inspectionId}/defects", { params: { path: { inspectionId } }, body })),
+  /**
+   * Categories ml-service suggests for an uploaded photo (T-602). Always an answer: an empty list
+   * when the model is unsure or unavailable.
+   */
+  suggestCategories: (photoId: string) => unwrap(core.POST("/category-suggestions", { body: { photoId } })),
   /** A defect of an earlier inspection seen again: still open or confirmed resolved (ADR-004). */
   observe: (inspectionId: string, defectId: string, status: ObservationStatus) =>
     unwrap(

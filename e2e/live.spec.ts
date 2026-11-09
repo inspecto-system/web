@@ -67,10 +67,15 @@ test("register, see the empty dashboard, survive a reload, sign out, sign in aga
   await items.nth(1).getByRole("button", { name: "Дефект" }).click();
   await page.getByLabel("Описание дефекта кратко").fill("Трещина у окна");
   await page.getByLabel("Серьёзность").selectOption("MAJOR");
+  // A photo in the form (T-603): uploaded to media-service, ml-service is asked for categories.
+  // With a model the suggestions appear, without one (CI) the form says so; either way the photo
+  // is attached to the new defect.
+  await page
+    .getByLabel("Выбрать фото дефекта", { exact: true })
+    .setInputFiles(`${__dirname}/fixtures/room.jpg`);
+  await expect(page.getByText(/Похоже на:|Подсказки нет/)).toBeVisible();
   await page.getByRole("button", { name: "Сохранить дефект" }).click();
   await expect(page.getByText("Трещина у окна")).toBeVisible();
-  // A photo of the defect: uploaded to media-service, attached in core-service, shown as a thumbnail.
-  await page.getByLabel("Выбрать фото").setInputFiles(`${__dirname}/fixtures/room.jpg`);
   const thumbnail = page.getByRole("button", { name: "Открыть фото" }).locator("img");
   await expect(thumbnail).toBeVisible();
   expect(await thumbnail.evaluate((image: HTMLImageElement) => image.naturalWidth)).toBeGreaterThan(0);

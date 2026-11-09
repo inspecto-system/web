@@ -13,6 +13,7 @@ import {
   type InspectionRoom,
 } from "@/inspections/api";
 import { cn } from "@/lib/utils";
+import { attachPhoto } from "@/photos/api";
 import { PhotoStrip } from "@/photos/photo-strip";
 
 /** Quick marks of a checklist item, in the order of the buttons (as in the Android app). */
@@ -52,12 +53,14 @@ function ChecklistRow({
 
 /** One room of an inspection: its checklist and the defects observed in it. */
 export function RoomPanel({
+  propertyId,
   inspectionId,
   room,
   editable,
   onChanged,
   onError,
 }: {
+  propertyId: string;
   inspectionId: string;
   room: InspectionRoom;
   editable: boolean;
@@ -104,12 +107,17 @@ export function RoomPanel({
         {draftFor !== undefined && (
           <DefectForm
             key={draftFor?.id ?? "free"}
+            propertyId={propertyId}
             roomId={room.room.id}
             item={draftFor ?? undefined}
             onCancel={() => setDraftFor(undefined)}
-            onSubmit={async (defect) => {
-              await inspectionApi.createDefect(inspectionId, defect);
+            onSubmit={async (defect, photoId) => {
+              const created = await inspectionApi.createDefect(inspectionId, defect);
               setDraftFor(undefined);
+              const first = created.observations[0];
+              // The defect exists now: a failed attach is reported, but the form is not reopened
+              // (sending it again would create a second defect). The photo can be added later.
+              if (photoId && first) await attachPhoto(first.id, photoId).catch(onError);
               onChanged();
             }}
           />

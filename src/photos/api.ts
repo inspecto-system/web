@@ -36,15 +36,15 @@ export const photoQueries = {
 };
 
 /**
- * Uploads a photo to media-service and attaches it to an observation in core-service. The
- * Idempotency-Key makes a repeated upload (after a lost answer) return the same photo; an
- * uploaded but unattached photo is deleted by media-service after 24 hours.
+ * Uploads a photo of the property to media-service. The Idempotency-Key makes a repeated upload
+ * (after a lost answer) return the same photo; a photo left unattached is deleted by
+ * media-service after 24 hours.
  */
-export async function addPhoto(propertyId: string, observationId: string, file: File, key: string) {
+export function uploadPhoto(propertyId: string, file: File, key: string) {
   const form = new FormData();
   form.append("propertyId", propertyId);
   form.append("file", file);
-  const photo = await unwrap(
+  return unwrap(
     media.POST("/photos", {
       params: { header: { "Idempotency-Key": key } },
       // The generated type describes the multipart fields; the browser sends the FormData as is.
@@ -52,12 +52,22 @@ export async function addPhoto(propertyId: string, observationId: string, file: 
       bodySerializer: (body) => body as unknown as FormData,
     }),
   );
-  await unwrap(
+}
+
+/** Attaches an uploaded photo to an observation in core-service. */
+export function attachPhoto(observationId: string, photoId: string) {
+  return unwrap(
     core.POST("/observations/{observationId}/photos", {
       params: { path: { observationId } },
-      body: { photoId: photo.id },
+      body: { photoId },
     }),
   );
+}
+
+/** Uploads a photo and attaches it to an observation. */
+export async function addPhoto(propertyId: string, observationId: string, file: File, key: string) {
+  const photo = await uploadPhoto(propertyId, file, key);
+  await attachPhoto(observationId, photo.id);
   return photo;
 }
 
